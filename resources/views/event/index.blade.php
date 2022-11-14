@@ -33,7 +33,7 @@
                     {{--                    </h5>--}}
 
                     <div class="card-header">
-                        <form method="post" action="{{route('company.store')}}">
+                        <form method="post" action="{{route('event.store')}}">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-4" >
@@ -85,6 +85,7 @@
                                                 <th>price</th>
                                                 <th>Duration</th>
                                                 <th>details</th>
+                                                <th>Edit</th>
 
                                                 {{--                                                <th>Action</th>--}}
                                             </tr>
@@ -101,6 +102,9 @@
 
                                                     </td>
                                                     <td>{{$comp->details}}</td>
+                                                    <td>
+                                                        <a href="{{route('event.edit',$comp->id)}}" class="btn btn-info">Edit</a>
+                                                    </td>
                                                     {{--                                                    <td><a href="{{route('employees.edit',$emp->id)}}" class="btn btn-sm btn-info">Show</a>--}}
                                                     {{--                                                        <form action="{{ route('employees.destroy',$emp->id) }}" method="POST">--}}
                                                     {{--                                                            @csrf--}}

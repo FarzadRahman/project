@@ -38,3 +38,5 @@ Route::get('/agent', [App\Http\Controllers\AgentController::class, 'index'])->na
 Route::post('/agent/store', [App\Http\Controllers\AgentController::class, 'store'])->name('agent.store');
 
 Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->name('event.index');
+Route::get('/events/edit/{id}', [App\Http\Controllers\EventController::class, 'edit'])->name('event.edit');
+Route::post('/events/store', [App\Http\Controllers\EventController::class, 'store'])->name('event.store');
