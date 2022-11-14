@@ -15,9 +15,6 @@ class AgentController extends Controller
     {
         $agents=Agent::select('agent.*','company.company_name')->leftJoin('company','company.company_id','agent.company_id')->get();
         $companies=Company::get();
-//        return $agents;
-
-//        $employees=Employee::get();
 
         return view('agent.index',compact('agents','companies'));
     }
@@ -25,9 +22,10 @@ class AgentController extends Controller
     public function store(Request $r){
 //        return Hash::make($r->password);
 //        return $r;
+
         $agent=new Agent();
         $agent->agent_name=$r->agent_name;
-        $agent->contact_number=$r->contact_number;
+//        $agent->contact_number=$r->contact_number;
         $agent->contact_number=$r->contact_number;
         $agent->nid=$r->nid;
         $agent->company_id=$r->company_id;
@@ -44,6 +42,34 @@ class AgentController extends Controller
         $agent->user_id=$user->id;
         $agent->save();
 
+        return back();
+    }
+    public function edit($id){
+        $agent=Agent::findOrFail($id);
+        $user=User::findOrFail($agent->user_id);
+
+        $companies=Company::get();
+
+        return view('agent.edit',compact('agent','companies','user'));
+//        return $agent;
+    }
+
+    public function update(Request $r){
+        $agent=Agent::findOrFail($r->id);
+        $agent->agent_name=$r->agent_name;
+//        $agent->contact_number=$r->contact_number;
+        $agent->contact_number=$r->contact_number;
+        $agent->nid=$r->nid;
+        $agent->company_id=$r->company_id;
+        $agent->save();
+
+        $user=User::findOrFail($agent->user_id);
+        $user->name=$r->agent_name;
+        $user->email =$r->email ;
+
+        $user->type ='agent' ;
+        $user->status =1 ;
+        $user->save();
         return back();
     }
 }

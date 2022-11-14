@@ -16,7 +16,13 @@ class CompanyController extends Controller
 
     public function store(Request $r){
 //         return auth()->user()->id;
-        $company=new Company();
+        if($r->company_id){
+            $company=Company::findOrFail($r->company_id);
+        }
+        else{
+            $company=new Company();
+        }
+
         $company->company_name=$r->company_name;
         $company->license=$r->license;
         $company->contact_number=$r->contact_number;
@@ -24,5 +30,11 @@ class CompanyController extends Controller
         $company->created_by=auth()->user()->id;
         $company->save();
         return back();
+    }
+
+    public function edit($id){
+        $company=Company::findOrFail($id);
+        return view('company.edit',compact('company'));
+
     }
 }

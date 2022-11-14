@@ -81,7 +81,7 @@
                                                 <th>License</th>
                                                 <th>Address</th>
                                                 <th>Phone</th>
-{{--                                                <th>Action</th>--}}
+                                                <th>Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -93,6 +93,7 @@
                                                     <td>{{$comp->license}}</td>
                                                     <td>{{$comp->office_address}}</td>
                                                     <td>{{$comp->contact_number}}</td>
+                                                    <td><a href="{{route('company.edit',$comp->company_id )}}" class="btn btn-info">Edit</a></td>
 {{--                                                    <td><a href="{{route('employees.edit',$emp->id)}}" class="btn btn-sm btn-info">Show</a>--}}
 {{--                                                        <form action="{{ route('employees.destroy',$emp->id) }}" method="POST">--}}
 {{--                                                            @csrf--}}

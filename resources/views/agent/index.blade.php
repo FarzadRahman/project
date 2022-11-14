@@ -113,6 +113,7 @@
                                                     <td>{{$comp->company_name}}</td>
                                                     <td>{{$comp->nid}}</td>
                                                     <td>{{$comp->contact_number}}</td>
+                                                    <td><a href="{{route('agent.edit',$comp->id )}}" class="btn btn-info">Edit</a></td>
                                                     {{--                                                    <td><a href="{{route('employees.edit',$emp->id)}}" class="btn btn-sm btn-info">Show</a>--}}
                                                     {{--                                                        <form action="{{ route('employees.destroy',$emp->id) }}" method="POST">--}}
                                                     {{--                                                            @csrf--}}
