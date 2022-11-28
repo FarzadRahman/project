@@ -23,14 +23,6 @@ class AgentController extends Controller
 //        return Hash::make($r->password);
 //        return $r;
 
-        $agent=new Agent();
-        $agent->agent_name=$r->agent_name;
-//        $agent->contact_number=$r->contact_number;
-        $agent->contact_number=$r->contact_number;
-        $agent->nid=$r->nid;
-        $agent->company_id=$r->company_id;
-        $agent->save();
-
         $user=new User();
         $user->name=$r->agent_name;
         $user->email =$r->email ;
@@ -39,8 +31,20 @@ class AgentController extends Controller
         $user->status =1 ;
         $user->save();
 
+
+        $agent=new Agent();
+        $agent->agent_name=$r->agent_name;
+//        $agent->contact_number=$r->contact_number;
+        $agent->contact_number=$r->contact_number;
+        $agent->nid=$r->nid;
+        $agent->company_id=$r->company_id;
         $agent->user_id=$user->id;
         $agent->save();
+
+
+
+
+        // $agent->save();
 
         return back();
     }

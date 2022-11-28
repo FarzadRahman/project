@@ -33,7 +33,8 @@
                     {{--                    </h5>--}}
 
                     <div class="card-header">
-                        <form method="post" action="{{route('event.store')}}">
+                       <h4 align="center">{{$company->company_name}}</h4>
+                        <form method="post" action="{{route('event.store')}}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-md-4" >
@@ -60,9 +61,18 @@
                                     <label>Details</label>
                                     <input type="text" class="form-control" name="details" required>
                                 </div>
+                                <div class="col-md-12"><br>
+
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <input type="file" name="image" class="form-control">
+                                </div>
 
 
-                                <div class="col-md-12"><br></div>
+                                <div class="col-md-12"><br>
+
+                                </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-success">Insert</button>
                                 </div>

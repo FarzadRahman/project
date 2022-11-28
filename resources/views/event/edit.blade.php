@@ -7,21 +7,10 @@
     {{--    <link rel="stylesheet" href="{{url('public')}}/assets/vendor/libs/datatables.checkboxes.css">--}}
     {{--    <link rel="stylesheet" href="{{url('public')}}/assets/vendor/libs/buttons.bootstrap5.css">--}}
 
-
-
-
-
-
-
-
 @endsection
 @section('container')
 
-
-
-
     <div class="container-xxl flex-grow-1 container-p-y">
-
 
 
         <div class="row">
@@ -33,36 +22,46 @@
                     {{--                    </h5>--}}
 
                     <div class="card-header">
-                        <form method="post" action="{{route('event.store')}}">
+                        <form method="post" action="{{route('event.store')}}" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="{{$event->id}}">
                             @csrf
                             <div class="row">
-                                <div class="form-group col-md-4" >
+                                <div class="form-group col-md-4">
                                     <label>Title</label>
-                                    <input type="text" class="form-control" name="title" value="{{$event->title}}" required>
+                                    <input type="text" class="form-control" name="title" value="{{$event->title}}"
+                                           required>
                                 </div>
 
-                                <div class="form-group col-md-4" >
+                                <div class="form-group col-md-4">
                                     <label>Price</label>
-                                    <input type="number" class="form-control" name="price" value="{{$event->price}}" required>
+                                    <input type="number" class="form-control" name="price" value="{{$event->price}}"
+                                           required>
                                 </div>
 
-                                <div class="form-group col-md-4" >
+                                <div class="form-group col-md-4">
                                     <label>Start Date</label>
-                                    <input type="date" class="form-control" name="start_date" value="{{$event->start_date}}" required>
+                                    <input type="date" class="form-control" name="start_date"
+                                           value="{{$event->start_date}}" required>
                                 </div>
 
-                                <div class="form-group col-md-4" >
+                                <div class="form-group col-md-4">
                                     <label>End Date</label>
 
-                                    <input type="date" class="form-control" name="end_date" value="{{$event->end_date}}" required>
+                                    <input type="date" class="form-control" name="end_date" value="{{$event->end_date}}"
+                                           required>
                                 </div>
 
-                                <div class="form-group col-md-8" >
+                                <div class="form-group col-md-8">
                                     <label>Details</label>
-                                    <input type="text" class="form-control" name="details" value="{{$event->details}}"  required>
+                                    <input type="text" class="form-control" name="details" value="{{$event->details}}"
+                                           required>
                                 </div>
 
+                                <div class="col-md-12"><br></div>
+
+                                <div class="form-group col-md-6">
+                                    <input type="file" name="image" class="form-control">
+                                </div>
 
                                 <div class="col-md-12"><br></div>
                                 <div class="col-md-6">
@@ -72,19 +71,18 @@
                             </div>
                         </form>
 
+
                     </div>
 
 
-
                 </div>
+                @if($event->image)
+                    <img src={{url('public/images/'.$event->image)}} width="300">
+                @endif
             </div>
-
 
 
         </div>
 
-
-
-
-        @endsection
+@endsection
 
