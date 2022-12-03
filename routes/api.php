@@ -19,8 +19,11 @@ use Illuminate\Support\Facades\Route;
 //});
 //Route::get('/', 'APIAuthController@test');
 Route::get('/events', [App\Http\Controllers\EventController::class, 'allEvents']);
+Route::post('place/order', [App\Http\Controllers\EventController::class, 'placeOrder']);
 Route::get('/event/{id}', [App\Http\Controllers\EventController::class, 'singleEvent']);
 Route::get('/', [App\Http\Controllers\APIAuthController::class, 'test']);
+Route::post('/me', [App\Http\Controllers\APIAuthController::class, 'me']);
+Route::post('customer/register', [App\Http\Controllers\APIAuthController::class, 'cusomerRegister']);
 Route::group([
 
     'middleware' => 'api',
@@ -32,7 +35,9 @@ Route::group([
 
 //    Route::post('login', 'AuthController@login');
     Route::post('/login', [App\Http\Controllers\APIAuthController::class, 'login']);
-    Route::post('/me', [App\Http\Controllers\APIAuthController::class, 'me']);
+    // Route::post('customer/register', [App\Http\Controllers\APIAuthController::class, 'cusomerRegister']);
+
+
 
 //    Route::post('logout', 'AuthController@logout');
 //    Route::post('refresh', 'AuthController@refresh');

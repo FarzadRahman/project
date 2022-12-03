@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class APIAuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','cusomerRegister']]);
+    }
+
+    public function cusomerRegister(Request $request){
+        $user = new User();
+        $user->name=$request->userName;
+        $user->email=$request->email;
+        $user->password=Hash::make($request->password);
+        $user->type="user";
+        $user->status=1;
+        $user->phone=$request->phone;
+        $user->address=$request->address;
+        $user->save();
+        return response()->json(['message' => 'Successfully Registered']);
     }
 
     public function test(){
@@ -21,9 +36,18 @@ class APIAuthController extends Controller
 //        return $request;
         $credentials = $request->only('email', 'password');
 
-        if ($token = $this->guard('api')->attempt($credentials)) {
+
+        $user = User::where('email', $request->email)->where('type', 'user')
+            ->first();
+        if ($user && Hash::check($request->password, $user->password)) {
+            $token = $this->guard('api')->login($user);
             return $this->respondWithToken($token);
         }
+
+
+//        if ($token = $this->guard('api')->attempt($credentials)) {
+//            return $this->respondWithToken($token);
+//        }
 
         return response()->json(['error' => 'Unauthorized'], 401);
     }

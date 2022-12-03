@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Event;
 use App\Models\EventView;
 use Illuminate\Http\Request;
+use App\Models\CustomerOrder;
 
 class EventController extends Controller
 {
@@ -14,6 +15,20 @@ class EventController extends Controller
 //    {
 //        $this->middleware('auth');
 //    }
+
+    public function placeOrder(Request $r){
+        $events=$r->events;
+        $user=$r->user;
+
+        foreach ($events as $event){
+            $order=new CustomerOrder();
+            $order->user_id=$user['id'];
+            $order->event_id=$event['id'];
+            $order->save();
+        }
+        return $r;
+    }
+
     public function allEvents(){
         $events=EventView::get();
         return $events;
@@ -24,11 +39,19 @@ class EventController extends Controller
         return $events;
     }
     public function index(){
-        $agent=Agent::where('user_id',auth()->user()->id)->first();
-        $events=Event::where('company_id',$agent->company_id)->get();
-        $company=Company::findOrFail($agent->company_id);
-//        return $events;
-        return view('event.index',compact('events','company'));
+        if(auth()->user()->type=="admin"){
+            // $agent=Agent::where('user_id',auth()->user()->id)->first();
+            $events=Event::get();
+            // $company=Company::findOrFail($agent->company_id);
+            return view('event.index',compact('events'));
+        }
+        else{
+            $agent=Agent::where('user_id',auth()->user()->id)->first();
+            $events=Event::where('company_id',$agent->company_id)->get();
+            $company=Company::findOrFail($agent->company_id);
+            return view('event.index',compact('events','company'));
+        }
+
     }
 
     public function edit($id){
@@ -38,25 +61,22 @@ class EventController extends Controller
     }
 
     public function store(Request $r){
+
         $r->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
 
-
-
-
         /* Store $imageName name in DATABASE from HERE */
-
-//        return $r;
-        $agent=Agent::where('user_id',auth()->user()->id)->first();
-//        return $agent;
 
         if($r->id){
             $event=Event::findOrFail($r->id);
         }
         else{
+            $agent=Agent::where('user_id',auth()->user()->id)->first();
             $event=new Event();
+            $event->agent_id=$agent->id;
+            $event->company_id=$agent->company_id;
         }
 
         $event->title=$r->title;
@@ -64,14 +84,15 @@ class EventController extends Controller
         $event->start_date=$r->start_date;
         $event->end_date=$r->end_date;
         $event->details=$r->details;
-        $event->agent_id=$agent->id;
+
         if($r->hasFile('image')){
+
             $imageName = time().'.'.$r->image->extension();
 
             $r->image->move(public_path('images'), $imageName);
             $event->image=$imageName;
         }
-        $event->company_id=$agent->company_id;
+
         $event->save();
         return back();
     }

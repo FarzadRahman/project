@@ -28,60 +28,58 @@
             <div class="col-md-12">
 
                 <div class="card mb-4">
-                    {{--                    <h5 class="card-header">All Employees--}}
-                    {{--                        <a href="{{route('employees.create')}}" class="btn btn-sm btn-info bx-pull-right m-4" >+</a>--}}
-                    {{--                    </h5>--}}
+                    @if(auth()->user()->type!="admin")
 
-                    <div class="card-header">
-                       <h4 align="center">{{$company->company_name}}</h4>
-                        <form method="post" action="{{route('event.store')}}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="form-group col-md-4" >
-                                    <label>Title</label>
-                                    <input type="text" class="form-control" name="title" required>
+                        <div class="card-header">
+                            <h4 align="center">{{$company->company_name}}</h4>
+                            <form method="post" action="{{route('event.store')}}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                    <div class="form-group col-md-4" >
+                                        <label>Title</label>
+                                        <input type="text" class="form-control" name="title" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4" >
+                                        <label>Price</label>
+                                        <input type="number" class="form-control" name="price" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4" >
+                                        <label>Start Date</label>
+                                        <input type="date" class="form-control" name="start_date" required>
+                                    </div>
+
+                                    <div class="form-group col-md-4" >
+                                        <label>End Date</label>
+                                        <input type="date" class="form-control" name="end_date" required>
+                                    </div>
+
+                                    <div class="form-group col-md-8" >
+                                        <label>Details</label>
+                                        <input type="text" class="form-control" name="details" required>
+                                    </div>
+                                    <div class="col-md-12"><br>
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <input type="file" name="image" class="form-control">
+                                    </div>
+
+
+                                    <div class="col-md-12"><br>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-success">Insert</button>
+                                    </div>
+
                                 </div>
+                            </form>
 
-                                <div class="form-group col-md-4" >
-                                    <label>Price</label>
-                                    <input type="number" class="form-control" name="price" required>
-                                </div>
-
-                                <div class="form-group col-md-4" >
-                                    <label>Start Date</label>
-                                    <input type="date" class="form-control" name="start_date" required>
-                                </div>
-
-                                <div class="form-group col-md-4" >
-                                    <label>End Date</label>
-                                    <input type="date" class="form-control" name="end_date" required>
-                                </div>
-
-                                <div class="form-group col-md-8" >
-                                    <label>Details</label>
-                                    <input type="text" class="form-control" name="details" required>
-                                </div>
-                                <div class="col-md-12"><br>
-
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <input type="file" name="image" class="form-control">
-                                </div>
-
-
-                                <div class="col-md-12"><br>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-success">Insert</button>
-                                </div>
-
-                            </div>
-                        </form>
-
-                    </div>
-
+                        </div>
+                    @endif
 
                     <div class="card-body">
                         <div class="tab-content doc-example-content" id="tab-tabContent" data-label="Example">
@@ -95,6 +93,7 @@
                                                 <th>price</th>
                                                 <th>Duration</th>
                                                 <th>details</th>
+                                                <th>Image</th>
                                                 <th>Edit</th>
 
                                                 {{--                                                <th>Action</th>--}}
@@ -112,6 +111,11 @@
 
                                                     </td>
                                                     <td>{{$comp->details}}</td>
+                                                    <td>
+                                                        @if($comp->image)
+                                                            <img src={{url('public/images/'.$comp->image)}} width="100">
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         <a href="{{route('event.edit',$comp->id)}}" class="btn btn-info">Edit</a>
                                                     </td>
